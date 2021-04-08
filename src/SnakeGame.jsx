@@ -26,6 +26,9 @@ class SnakeGame extends React.Component {
       score: 0,
       highScore: Number(localStorage.getItem('snakeHighScore')) || 0,
       newHighScore: false,
+      contestID: null,
+      gamerName: null,
+      hasMoved: false,
     }
   }
 
@@ -85,12 +88,29 @@ class SnakeGame extends React.Component {
   }
 
   gameLoop() {
+    //Update GFC Gamer Name
+    if(this.props.gamerName){
+      if(this.state.gamerName !== this.props.gamerName){
+        this.setState({gamerName: this.props.gamerName});
+      }
+    }
+    //Update GFC Contest
+    if(this.props.contestID){
+      if(this.state.contestID !== this.props.contestID){
+        this.setState({contestID: this.props.contestID});
+      }
+    }
+
+
     let timeoutId = setTimeout(() => {
       if (!this.state.isGameOver) {
+        
+        if(this.state.gamerName && this.state.hasMoved){
         this.moveSnake()
         this.tryToEatSnake()
         this.tryToEatApple()
         this.setState({ directionChanged: false })
+        }
       }
 
       this.gameLoop()
@@ -150,6 +170,7 @@ class SnakeGame extends React.Component {
       appleColor: this.getRandomColor(),
       score: 0,
       newHighScore: false,
+      hasMoved: false,
     })
   }
 
@@ -239,7 +260,9 @@ class SnakeGame extends React.Component {
 
     for (let i = 1; i < snake.length; i++) {
       if (snake[0].Xpos === snake[i].Xpos && snake[0].Ypos === snake[i].Ypos)
-        this.setState({ isGameOver: true })
+        this.setState({ isGameOver: true }, () => {
+          this.props.completePlay(this.state.score);
+        })
     }
   }
 
@@ -263,8 +286,11 @@ class SnakeGame extends React.Component {
       case 'right':
         this.moveHeadRight()
         break
-      default:
+      case `down`:
         this.moveHeadDown()
+        break
+      default:
+        break;
     }
   }
 
@@ -305,9 +331,21 @@ class SnakeGame extends React.Component {
   }
 
   handleKeyDown(event) {
+    if(this.state.hasMoved === false){
+      //let _playsAvailable = 
+
+      if(this.props.getPlaysAvailable() > 0){
+        this.setState({hasMoved: true});
+      } else {
+        console.log('No plays remaining..');
+      }
+    }
+
     // if spacebar is pressed to run a new game
     if (this.state.isGameOver && event.keyCode === 32) {
-      this.resetGame()
+      if(this.props.getPlaysAvailable() > 0){
+        this.resetGame();
+      } 
       return
     }
 
