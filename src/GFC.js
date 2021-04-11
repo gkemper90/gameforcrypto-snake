@@ -13,6 +13,15 @@ export default function GFC (props) {
     const [selectedContest, setSelectedContest] = useState(null);
 
     useEffect(() => {
+        console.log('checking queryParams');
+        const queryParams = new URLSearchParams(window.location.search);
+        console.log('queryParams', queryParams);
+        let gamerHash = queryParams.get("gh");
+        setGamerHashValue(gamerHash);
+        //handleConnectGFC();
+    },[])
+
+    useEffect(() => {
 
         if(props.selectedContest){
             console.log('props.selectedContest', props.selectedContest);
@@ -203,9 +212,22 @@ export default function GFC (props) {
         return display;
     }
 
+    const displayStatus = () => {
+        let display = null;
+
+        if(status){
+            display = (
+                <p>{status}</p>
+            )
+        }
+
+        return display;
+    }
+
     return (
         <div>
             <h2>Game For Crypto Integration</h2>
+            {displayStatus()}
             {displayGamerHashForm()}
             {displayGamerName()}
             {displayContests()}
