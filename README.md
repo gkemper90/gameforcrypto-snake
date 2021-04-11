@@ -4,6 +4,13 @@
 
  ##What is Game For Crypto?
 
+ You can view the smart contract here: https://github.com/gkemper90/gameforcrypto-dapp
+
+ **
+Front End Demo: https://gameforcrypto.web.app/
+Snake Demo: https://gfc-snake.web.app/
+**
+
 Game For Crypto, GFC, is a platform developed to act as an online arcade, where gamers can win cryptocurrency based on gaming challenges.
 
 Contests are created by gamers, and an entry fee is set (in credits). Each gamer who joins the contest must pay the entry fee. These credits are acquired by using the GFC front end, and cost .0001 ETH per credit.
@@ -23,7 +30,3 @@ Credits are stored on the GFC smart contract linked to Ethereum address / Gamer 
 - Hit space bar to play again.
 - If you have any plays remaining, you may start moving the snake again with W/A/S/D or a direction key.
  
-**
-Front End Demo: https://gameforcrypto.web.app/
-Snake Demo: https://gfc-snake.web.app/
-**
